@@ -65,8 +65,9 @@ columns_with_characters = [
 ]
 if columns_with_characters:
     print(
-        "There are unprocessable characters in the metadata headers. Please make sure to eliminate dot, slash or hyphen and try again."
+        "There are unprocessable characters in the metadata headers. Please make sure to eliminate dot, slash or hyphen and try again. \n Please have a look at the following columns"
     )
+    print(columns_with_characters)
     raise Exception(
         "There are unprocessable characters in the metadata headers. Please make sure to eliminate dot, slash or hyphen and try again."
     )

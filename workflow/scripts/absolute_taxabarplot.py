@@ -62,22 +62,6 @@ def add_traces(fig, x_labels):
 
 # Add initial traces
 add_traces(fig, x_labels)
-"""
-# Loop through each row in the DataFrame
-for bacterium_name, row in df_reduced_second.iterrows():
-    # Add a bar trace for each bacterium
-    fig.add_trace(
-        go.Bar(
-            x=df_reduced_second.columns,  # Sample names on x-axis
-            y=row.values,  # Values for the current bacterium
-            name=bacterium_name,  # Bacterium name as legend label
-            marker_color=[
-                color_map[bacterium_name] for col in df_reduced_second.columns
-            ],  # Color by sample name
-            marker=dict(line=dict(width=0)),  # Remove the bar outline
-        )
-    )
-"""
 
 # Update layout for the plot
 fig.update_layout(
@@ -123,7 +107,13 @@ fig.update_layout(
         bgcolor="rgba(255, 255, 255, 0.5)",  # Set legend background color with transparency
         bordercolor="Black",  # Set legend border color
         borderwidth=1,  # Set legend border width
+        font=dict(size=8),
+        itemclick="toggleothers",
         traceorder="normal",  # Set the order of legend items
+    ),
+    xaxis=dict(
+        tickangle=45,  # Rotate x-axis tick labels by 45 degrees
+        tickfont=dict(size=8),  # Adjust font size for x-axis labels
     ),
     yaxis=dict(
         type="log",  # Set y-axis to logarithmic scale
@@ -140,34 +130,11 @@ fig.update_layout(
         l=100,  # Add left margin to accommodate tick text
         r=20,
         t=50,
-        b=80,  # Add bottom margin to accommodate tick text
+        b=150,  # Add bottom margin to accommodate tick text
     ),
+    width=len(df.columns) * 21.5,  # Increase figure width to fit more labels
+    height=1000,  # Increase figure height for better readability
 )
-"""
-# Update layout
-fig.update_layout(
-    title="Barplot logarithmic absolute bacterial abundances",
-    xaxis_title="Sample",
-    yaxis_title="Logarithmic absolute bacterial abundance",
-    barmode="stack",  # Stacked bar mode
-    legend_title="Bacterial names",
-    updatemenus=[{
-        "buttons": [
-            {
-                "args": [{"x": [metadata[col].values]}],
-                "label": col,
-                "method": "restyle"
-            } for col in metadata.columns
-        ],
-        "direction": "down",
-        "showactive": True,
-        "x": 1.15,
-        "xanchor": "left",
-        "y": 1.2,
-        "yanchor": "top",
-        "type": "dropdown"
-    }]
-)
-"""
+
 # Save the figure as an HTML file
 fig.write_html(str(snakemake.output))
